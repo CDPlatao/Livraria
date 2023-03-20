@@ -12,7 +12,6 @@
 #
 # ----------------------- Japanese -------------------------- 
 #
-# Kore wa kyōshitsu de kaihatsu sa rete iru purojekuto de, jawa gengo ni motodzuita raiburarī 
-# o sakusei suru koto o mokuteki to shite imasu.
+# Kore wa kyōshitsu de kaihatsu sa rete iru purojekuto de, jawa gengo ni motodzuita raiburarī o sakusei suru koto o mokuteki to shite imasu.
 #
 # ----------------------------------------------------------- 
