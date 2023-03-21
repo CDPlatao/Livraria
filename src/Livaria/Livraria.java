@@ -21,15 +21,16 @@ public class Livraria { // Incio CLASS
         int num = 99;
         boolean leu = false;
         Scanner lerNum = new Scanner(System.in);
-        while(!leu){
-            try{
+        while (!leu) {
+            try {
                 num = lerNum.nextInt();
                 leu = true;
-            } catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida, tente novamente!");
-                ler.nextLine():
+                ler.nextLine();
             }
-        } return num;
+        }
+        return num;
     }// Fim LEIA
 
     public static void MenuP() {// Inicio MENU

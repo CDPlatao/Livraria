@@ -26,7 +26,7 @@ public class CVendaLivro {
         this.vendaLivros.remove(vl);
     }
 
-    public void mockVendaLivros() {        
+    public void mockVendaLivros() {
         VendaLivro vl1 = new VendaLivro();
         vl1.setIdVendaLivro(this.geraID());
         vl1.setIdCliente(Livraria.CadCliente.getClienteCPF("987654321"));
