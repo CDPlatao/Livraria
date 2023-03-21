@@ -8,6 +8,7 @@ import Controle.CEditora;
 import Controle.CLivro;
 import Controle.CVendaLivro;
 import Model.Cliente;
+import Model.Editora;
 import util.Validadores;
 
 public class Livraria { // Incio CLASS
@@ -76,6 +77,8 @@ public class Livraria { // Incio CLASS
         System.out.print(" Escolha uma opção: ");
     }// Fim SUBMENU
 
+    // Inicio CLIENTE
+
     public static void cadastrarCliente() {// Inicio CADCLIENTE
         int idCliente;
         String nomeCliente;
@@ -106,11 +109,11 @@ public class Livraria { // Incio CLASS
         if (CadCliente.getClienteCPF(cpf) != null) {
             System.out.println("Cliente já cadastrado");
         } else {
-            System.out.println("Informe o nome: ");
+            System.out.print("Informe o nome: ");
             nomeCliente = ler.nextLine();
-            System.out.println("Informe o telefone: ");
+            System.out.print("Informe o telefone: ");
             telefone = ler.nextLine();
-            System.out.println("Informe o endereço: ");
+            System.out.print("Informe o endereço: ");
             endereco = ler.nextLine();
             idCliente = CadCliente.geraID();
             Cliente cli = new Cliente(idCliente, nomeCliente, cpf, cnpj, endereco, telefone);
@@ -120,7 +123,40 @@ public class Livraria { // Incio CLASS
         } // Fim DO
     }// Fim CADCLIENTE
 
-    public static void deletarCliente() {// Inicio DELETAR
+    private static void editarCliente() {// Inicio EDICLIENTE
+        System.out.println("|Editar Cliente|");
+        System.out.print("Informe o CPF: ");
+        String cpf = ler.nextLine();
+        if (Validadores.isCPF(cpf)) {
+            Cliente cli = CadCliente.getClienteCPF(cpf);
+            if (cli != null) {
+                System.out.println("1- Nome:\t" + cli.getNomeCliente());
+                System.out.println("2- Endereco:\t" + cli.getEndereco());
+                System.out.println("3- Telefone:\t" + cli.getTelefone());
+                System.out.println("4- Todos os campos acima.");
+                System.out.print("Qual campo gostaria de alterar ? +\nDigite aqui:");
+                int opEditor = LeiaNumINT();
+                if (opEditor == 1 || opEditor == 4) {
+                    System.out.println("Informe o |Nome:");
+                    cli.setNomeCliente(ler.nextLine());
+                }
+                if (opEditor == 2 || opEditor == 4) {
+                    System.out.println("Informe o Endereço:");
+                    cli.setEndereco(ler.nextLine());
+                }
+                if (opEditor == 3 || opEditor == 4) {
+                    System.out.println("Informe o Telefone:");
+                    cli.setTelefone(ler.nextLine());
+                }
+                System.out.println("Cliente \n" + cli.toString());
+            } else {
+                System.out.println("Cliente não consta na base de dados!.");
+            }
+        }
+
+    }// Fim EDICLIENTE
+
+    public static void deletarCliente() {// Inicio DELCLIENTE
         System.out.println("|Deletar Cliente|");
         System.out.print("Informe o CPF: ");
         String cpf = ler.next();
@@ -133,17 +169,128 @@ public class Livraria { // Incio CLASS
             }
         } else
             System.out.println("CPF Inválido!.");
-    }// Fim DELETAR
+    }// Fim DELCLIENTE
 
-    public static void listarCliente() {// Inicio LISTAR
+    public static void listarCliente() {// Inicio LISTACLIENTE
         for (Cliente cli : CadCliente.GetClientes()) {
-            System.out.println("\nCPF: " + cli.getCpf());
-            System.out.println("Nome: " + cli.getNomeCliente());
+            System.out.println("CPF: " + cli.getCpf());
+            System.out.println("Nome:" + cli.getNomeCliente());
             System.out.println("Telefone: " + cli.getTelefone());
         }
-    }// Fim LISTAR
+    }// Fim LISTACLIENTE
+     // Fim CLIENTE
+
+    // Inicio EDITORA
+    public static void cadastrarEditora() {// Inicio CADEDITORA
+        int idEditora;
+        String nomeEditora;
+        String cnpj;
+        String endereco;
+        String telefone;
+        String nomeGerente;
+
+        System.out.println("|Cadastro de Editora|");
+        System.out.print("Informe o CNPJ:");
+        boolean cnpjis;
+        int opCNPJ;
+        do {// Inicio DO
+            cnpj = ler.nextLine();
+            cnpjis = Validadores.isCNPJ(cnpj);
+            if (!cnpjis) {
+                System.out.println("CNPJ inválido" + "\nDeseja tentar novamente ? 1 - Sim | 2 - Não");
+                opCNPJ = LeiaNumINT();
+
+                if (opCNPJ == 1) {
+                    System.out.println("Informe o CNPJ:");
+                } else if (opCNPJ == 2) {
+                    System.out.println("Cadastro cancelado pelo usuário");
+                    break;
+                }
+            }
+        } while (!Validadores.isCNPJ(cnpj));
+        if (CadEditora.getEditoraCNPJ(cnpj) != null) {
+            System.out.println("Editora já cadastrada");
+        } else {
+            System.out.print("Informe o nome da editora: ");
+            nomeEditora = ler.nextLine();
+            System.out.print("Informe o telefone: ");
+            telefone = ler.nextLine();
+            System.out.print("Informe o endereço: ");
+            endereco = ler.nextLine();
+            idEditora = CadEditora.geraID();
+            Editora edi = new Editora(idEditora, nomeEditora, cnpj, endereco, telefone, nomeGerente)
+            CadEditora.addEditora(edi);
+            System.out.println("Editora cadastrada com sucesso!");
+        } // Fim DO
+    }// Fim CADEDITORA
+
+    private static void editarEditora() {// Inicio EDIEDITORA
+        System.out.println("|Editar Editora|");
+        System.out.print("Informe o CNPJ: ");
+        String cnpj = ler.nextLine();
+        if (Validadores.isCNPJ(cnpj)) {
+            Editora edi = CadEditora.getEditoraCNPJ(cnpj);
+            if (edi != null) {
+                System.out.println("1- Nome Editora:\t" + edi.getnomeEditora());
+                System.out.println("2- Endereço:\t" + edi.Getendereco());
+                System.out.println("3- Telefone:\t" + edi.Gettelefone());
+                System.out.println("4- Nome Gerente:\t" + edi.getgerente());
+                System.out.println("5- Todos os campos acima.");
+                System.out.print("Qual campo gostaria de alterar ? +\nDigite aqui:");
+                int opEditor = LeiaNumINT();
+                if (opEditor == 1 || opEditor == 5) {
+                    System.out.println("Informe o Nome:");
+                    edi.setNomeEditora(cnpj);
+                }
+                if (opEditor == 2 || opEditor == 5) {
+                    System.out.println("Informe o Endereço:");
+                    edi.setEndereco(cnpj);
+                }
+                if (opEditor == 3 || opEditor == 5) {
+                    System.out.println("Informe o Telefone:");
+                    edi.setTelefone(cnpj);
+                }
+                if (opEditor == 4 || opEditor == 5) {
+                    System.out.println("Informe o Telefone:");
+                    edi.setGerente(cnpj);
+                }
+                System.out.println("Editora \n" + edi.toString());
+            } else {
+                System.out.println("Editora não consta na base de dados!.");
+            }
+        }
+
+    }// Fim EDIEDITORA
+
+    public static void deletarEditora() {// Inicio DELEDITORA
+        System.out.println("|Deletar Editora|");
+        System.out.print("Informe o CNPJ: ");
+        String cnpj = ler.next();
+        if (Validadores.isCNPJ(cnpj)) {
+            Editora edi = CadEditora.getEditoraCNPJ(cnpj);
+            if (edi != null) {
+                System.out.println("Editora deletada com sucesso!.");
+            } else {
+                System.out.println("Editora não consta na base de dados.");
+            }
+        } else
+            System.out.println("CNPJ Inválido!.");
+    }// Fim DELEDITORA
+
+    public static void listarEditora() {// Inicio LISTAEDITORA
+        for (Editora edi : CadEditora.getEditoras()) {
+            System.out.println("CNPJ: " + edi.getcnpj());
+            System.out.println("Nome Editora: " + edi.getnomeEditora());
+            System.out.println("Telefone: " + edi.Gettelefone());
+        }
+    }// Fim LISTAEDITORA
+     // Fim EDITORA
 
     public static void main(String[] args) {// Inicio VOID
+        CadCliente.mockClientes();
+        CadEditora.mockEditora();
+        CadLivro.mockLivros();
+        CadVendaLivro.mockVendaLivros();
         int opM;
         do {
             MenuP();
@@ -160,20 +307,25 @@ public class Livraria { // Incio CLASS
 
                         switch (opSM) {
                             case 1:
-                                System.out.println("-- Cadastrar --");
+                                System.out.println("-- Cadastrar --\n");
+                                cadastrarCliente();
                                 break;
                             case 2:
-                                System.out.println("-- Editar --");
+                                System.out.println("-- Editar --\n");
+                                editarCliente();
                                 break;
                             case 3:
-                                System.out.println("-- Listar --");
+                                System.out.println("-- Listar --\n");
+                                listarCliente();
                                 break;
                             case 4:
-                                System.out.println("-- Deletar --");
+                                System.out.println("-- Deletar --\n");
+                                deletarCliente();
                                 break;
                             case 0:
-                                System.out.println("-- Menu Principal --");
+                                System.out.println("-- Menu Principal --\n");
                                 opM = 99;
+                                MenuP();
                                 break;
                             default:
                                 System.out.println("Opção inválida, tente novamente!!");
