@@ -11,7 +11,7 @@ public class Livro {
     private Editora idEditora;
 
     public Livro() {
-    }   
+    }
 
     public Livro(int idLivro, String nomeLivro, String autor, String assunto, String isbn, int estoque, float preco,
             Editora idEditora) {
@@ -91,8 +91,9 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro | idLivro: " + idLivro + "| nomeLivro: " + nomeLivro + "| autor: " + autor + "| assunto: " + assunto
-                + "| isbn: " + isbn + "| estoque: " + estoque + "| preco: " + preco + "| idEditora: " + idEditora + "|";
+        return "Livro | Nome do Livro: " + nomeLivro + " | Autor: " + autor + " | Gênero: " + assunto
+                + " | ISBN: " + isbn + " | Qt Estoque: " + estoque + "| Preço: " + preco + "| Nome da Editora: "
+                + idEditora + "|";
     }
 
 }

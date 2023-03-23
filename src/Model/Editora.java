@@ -71,9 +71,8 @@ public class Editora {
 
     @Override
     public String toString() {
-        return "Editora | idEditora: " + idEditora + "| nomeEditora: " + nomeEditora +
-                "| cnpj: " + cnpj + "| endereco: " + endereco + "| telefone: "
-                + telefone + ", gerente: " + gerente + "|";
+        return "Editora | Nome da Editora: " + nomeEditora + " | CNPJ: " + cnpj + " | Endereço: " + endereco
+                + " | Telefone: " + telefone + " | Nome do Gerente: " + gerente + "|";
     }
 
 }

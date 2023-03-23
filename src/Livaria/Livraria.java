@@ -1,8 +1,8 @@
 package Livaria;
 
-import java.util.InputMismatchException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
-
 import Controle.CCliente;
 import Controle.CEditora;
 import Controle.CLivro;
@@ -10,6 +10,7 @@ import Controle.CVendaLivro;
 import Model.Cliente;
 import Model.Editora;
 import Model.Livro;
+import Model.VendaLivro;
 import util.Validadores;
 
 public class Livraria { // Incio CLASS
@@ -41,21 +42,19 @@ public class Livraria { // Incio CLASS
         }
         return 0;
     }// Fim LEIA
-     // Inicio MENU
 
+    // Inicio MENUS
     public static void MenuP() {// Inicio MENU
-        System.out.println();
-        System.out.println();
-        System.out.println("|-------------------|");
-        System.out.println("|--    LIVRARIA   --|");
-        System.out.println("|-------------------|");
-        System.out.println("| 1 - Ger. Cliente  |");
-        System.out.println("| 2 - Ger. Editora  |");
-        System.out.println("| 3 - Ger. Livro    |");
-        System.out.println("| 4 - Venda Livro   |");
-        System.out.println("| 0 - Sair          |");
-        System.out.println("|-------------------|");
-        System.out.print(" Escolha uma opção: ");
+        System.out.println("\n+----------------------+");
+        System.out.println("|       LIVRARIA       |");
+        System.out.println("+----------------------+");
+        System.out.println("| 1 - Ger. Cliente     |");
+        System.out.println("| 2 - Ger. Editora     |");
+        System.out.println("| 3 - Ger. Livro       |");
+        System.out.println("| 4 - Venda Livro      |");
+        System.out.println("| 0 - Sair             |");
+        System.out.println("+----------------------+");
+        System.out.print("  Escolha uma opção: ");
 
     }// Fim MENU
 
@@ -72,21 +71,20 @@ public class Livraria { // Incio CLASS
                 tpCad = "Livro";
                 break;
         }
-        System.out.println();
-        System.out.println();
-        System.out.println("|------------------------------|");
-        System.out.println("|--       Gerenciamento      --|");
-        System.out.println("|------------------------------|");
-        System.out.println(" 1 - Cadastrar " + tpCad);
-        System.out.println(" 2 - Editar " + tpCad);
-        System.out.println(" 3 - Listar " + tpCad);
-        System.out.println(" 4 - Deletar " + tpCad);
-        System.out.println("0 - Voltar");
+        System.out.println("+-----------------------------------------+");
+        System.out.println("|              Gerenciamento              |");
+        System.out.println("+-----------------------------------------+");
+        System.out.println("| 1 - Cadastrar " + tpCad + "\t                  |");
+        System.out.println("| 2 - Editar " + tpCad + "\t                  |");
+        System.out.println("| 3 - Listar " + tpCad + " \t                  |");
+        System.out.println("| 4 - Deletar " + tpCad + "\t                  |");
+        System.out.println("| 0 - Voltar                              |");
+        System.out.println("+-----------------------------------------+");
         System.out.print(" Escolha uma opção: ");
     }// Fim SUBMENU
-     // Fim MENU
+     // Fim MENUS
+     // Inicio CLIENTE
 
-    // Inicio CLIENTE
     public static void cadastrarCliente() {// Inicio CADCLIENTE
         int idCliente;
         String nomeCliente;
@@ -95,8 +93,10 @@ public class Livraria { // Incio CLASS
         String endereco;
         String telefone;
 
-        System.out.println("|Cadastro de Cliente|");
-        System.out.print("Informe o CPF: ");
+        System.out.println("+----------------------------+");
+        System.out.println("| -- Cadastro de clientes -- |");
+        System.out.println("+----------------------------+");
+        System.out.print(" Informe o CPF: ");
         boolean cpfis;
         int opCPF;
         do {// Inicio DO
@@ -132,8 +132,10 @@ public class Livraria { // Incio CLASS
     }// Fim CADCLIENTE
 
     private static void editarCliente() {// Inicio EDICLIENTE
-        System.out.println("|Editar Cliente|");
-        System.out.print("Informe o CPF: ");
+        System.out.println("+----------------------------+");
+        System.out.println("| --  Edição de clientes  -- |");
+        System.out.println("+----------------------------+");
+        System.out.print(" Informe o CPF: ");
         String cpf = ler.nextLine();
         if (Validadores.isCPF(cpf)) {
             Cliente cli = CadCliente.getClienteCPF(cpf);
@@ -165,7 +167,9 @@ public class Livraria { // Incio CLASS
     }// Fim EDICLIENTE
 
     public static void deletarCliente() {// Inicio DELCLIENTE
-        System.out.println("|Deletar Cliente|");
+        System.out.println("+-----------------------------+");
+        System.out.println("| --  Remoção de clientes  -- |");
+        System.out.println("+-----------------------------+");
         System.out.print("Informe o CPF: ");
         String cpf = ler.next();
         if (Validadores.isCPF(cpf)) {
@@ -181,6 +185,7 @@ public class Livraria { // Incio CLASS
 
     public static void listarCliente() {// Inicio LISTACLIENTE
         for (Cliente cli : CadCliente.GetClientes()) {
+            System.out.println("+-------------------------------------+");
             System.out.println("CPF: " + cli.getCpf());
             System.out.println("Nome:" + cli.getNomeCliente());
             System.out.println("Telefone: " + cli.getTelefone());
@@ -197,8 +202,10 @@ public class Livraria { // Incio CLASS
         String telefone;
         String nomeGerente;
 
-        System.out.println("|Cadastro de Editora|");
-        System.out.print("Informe o CNPJ:");
+        System.out.println("+----------------------------+");
+        System.out.println("| -- Cadastro de editoras -- |");
+        System.out.println("+----------------------------+");
+        System.out.print(" Informe o CNPJ:");
         boolean cnpjis;
         int opCNPJ;
         do {// Inicio DO
@@ -235,8 +242,10 @@ public class Livraria { // Incio CLASS
     }// Fim CADEDITORA
 
     private static void editarEditora() {// Inicio EDIEDITORA
-        System.out.println("|Editar Editora|");
-        System.out.print("Informe o CNPJ: ");
+        System.out.println("+----------------------------+");
+        System.out.println("| --  Edição de editoras  -- |");
+        System.out.println("+----------------------------+");
+        System.out.print(" Informe o CNPJ: ");
         String cnpj = ler.nextLine();
         if (Validadores.isCNPJ(cnpj)) {
             Editora edi = CadEditora.getEditoraCNPJ(cnpj);
@@ -261,7 +270,7 @@ public class Livraria { // Incio CLASS
                     edi.setTelefone(cnpj);
                 }
                 if (opEditor == 4 || opEditor == 5) {
-                    System.out.println("Informe o Telefone:");
+                    System.out.println("Informe o Gerente:");
                     edi.setGerente(cnpj);
                 }
                 System.out.println("Editora \n" + edi.toString());
@@ -273,8 +282,10 @@ public class Livraria { // Incio CLASS
     }// Fim EDIEDITORA
 
     public static void deletarEditora() {// Inicio DELEDITORA
-        System.out.println("|Deletar Editora|");
-        System.out.print("Informe o CNPJ: ");
+        System.out.println("+----------------------------+");
+        System.out.println("| --  Remoção de editoras -- |");
+        System.out.println("+----------------------------+");
+        System.out.print(" Informe o CNPJ: ");
         String cnpj = ler.next();
         if (Validadores.isCNPJ(cnpj)) {
             Editora edi = CadEditora.getEditoraCNPJ(cnpj);
@@ -289,6 +300,7 @@ public class Livraria { // Incio CLASS
 
     public static void listarEditora() {// Inicio LISTAEDITORA
         for (Editora edi : CadEditora.getEditoras()) {
+            System.out.println("+-------------------------------------+");
             System.out.println("CNPJ: " + edi.getcnpj());
             System.out.println("Nome Editora: " + edi.getnomeEditora());
             System.out.println("Telefone: " + edi.Gettelefone());
@@ -298,7 +310,9 @@ public class Livraria { // Incio CLASS
 
     // Inicio LIVRO
     public static void cadastrarLivro() {// Inicio CADLIVRO
-        System.out.println("|Cadastrar livro|");
+        System.out.println("+----------------------------+");
+        System.out.println("| --  Cadastro de livros  -- |");
+        System.out.println("+----------------------------+");
         System.out.println("Informe o ISBN: ");
         String isbn = ler.nextLine();
         if (CadLivro.getLivroISBN(isbn) != null) {
@@ -314,7 +328,7 @@ public class Livraria { // Incio CLASS
             System.out.println("Informe o estoque: ");
             int estoque = lerNum();
             System.out.println("Informe o preço: ");
-            float preco = ler.nextFloat();
+            float preco = lerNumFLOAT();
             boolean isCNPJ = false;
             Editora idEditora = null;
             do {
@@ -326,29 +340,82 @@ public class Livraria { // Incio CLASS
                     if (idEditora == null) {
                         System.out.println("Editora não cadastrada!.");
                         isCNPJ = false;
+                    } else {
+                        Livro li = new Livro(idLivro, nomeLivro, autor, assunto, isbn, estoque, preco, idEditora);
+                        CadLivro.addLivro(li);
+                        System.out.println("Livro cadastrado com sucesso!.");
+                        isCNPJ = false;
                     }
                 } else {
                     System.out.println("CNPJ inválido!.");
                 }
             } while (isCNPJ);
-            Livro li = new Livro(idLivro, nomeLivro, autor, assunto, isbn, estoque, preco, idEditora);
-            CadLivro.addLivro(li);
-            System.out.println("Livro cadastrado com sucesso!.");
 
         }
     }// Fim CADLIVRO
 
     private static void editarLivro() {// Inicio EDILIVRO
-        throw new UnsupportedOperationException("Not supported yet.");
-    }// Fim EDILIVRO
-
-    public static void deletarLivro() {// Inicio DELLIVRO
-        System.out.println("| Deletar Livro|");
+        System.out.println("+----------------------------+");
+        System.out.println("| --   Edição de livros   -- |");
+        System.out.println("+----------------------------+");
         System.out.print("Informe o ISBN: ");
         String isbn = ler.nextLine();
         Livro li = CadLivro.getLivroISBN(isbn);
         if (li != null) {
-            System.out.println("Livro " + li.getNomeLivro() + "Será deletado!.");
+            System.out.println("Livro a ser alterado: " + li.getNomeLivro());
+            System.out.print("Você tem certeza que deseja alterar este livro ? Digite 1 - Sim | 2 - Não \n");
+            int op = lerNum();
+            if (op == 1) {
+                System.out.println("+------------------------+");
+                System.out.println("+- INFORMAÇÕES DO LIVRO -+");
+                System.out.println("+------------------------+");
+                System.out.println(" 1- Nome livro:\t" + li.getNomeLivro());
+                System.out.println(" 2- Autor:\t" + li.getAutor());
+                System.out.println(" 3- Genero:\t" + li.getAssunto());
+                System.out.println(" 4- Qt. em estoque:\t" + li.getEstoque());
+                System.out.println(" 5- Preço:\t" + li.getPreco());
+                System.out.println(" 6- Todos os campos acima.");
+                System.out.print("Qual campo gostaria de alterar ? +\nDigite aqui:");
+                int opEditor = lerNum();
+                if (opEditor == 1 || opEditor == 6) {
+                    System.out.println("Informe o Nome:");
+                    li.setNomeLivro(isbn);
+                }
+                if (opEditor == 2 || opEditor == 6) {
+                    System.out.println("Informe o Autor:");
+                    li.setAutor(isbn);
+                }
+                if (opEditor == 3 || opEditor == 6) {
+                    System.out.println("Informe o Genero:");
+                    li.setAssunto(isbn);
+                }
+                if (opEditor == 4 || opEditor == 6) {
+                    System.out.println("Informe a quantia em Estoque:");
+                    li.setEstoque(opEditor);
+                }
+                if (opEditor == 5 || opEditor == 6) {
+                    System.out.println("Informe o Preço:");
+                    li.setPreco(opEditor);
+                }
+                System.out.println("Livro: \n" + li.toString());
+            } else {
+                System.out.println("Alteração cancelada pelo usuário!.");
+            }
+        } else {
+            System.out.println("ISBN não localizado!.");
+        }
+
+    }// Fim EDILIVRO
+
+    public static void deletarLivro() {// Inicio DELLIVRO
+        System.out.println("+----------------------------+");
+        System.out.println("| --   Remoção de livros  -- |");
+        System.out.println("+----------------------------+");
+        System.out.print("Informe o ISBN: ");
+        String isbn = ler.nextLine();
+        Livro li = CadLivro.getLivroISBN(isbn);
+        if (li != null) {
+            System.out.println("Livro " + li.getNomeLivro() + " Será deletado!.");
             CadLivro.removeLivro(li);
         } else {
             System.out.println("ISBN não encontrado!.");
@@ -356,8 +423,8 @@ public class Livraria { // Incio CLASS
     }// Fim DELLIVRO
 
     public static void listarLivro() {// Inicio LISTALIVRO
-        System.out.println("|Listar Livros|");
         for (Livro livro : CadLivro.getLivros()) {
+            System.out.println("+-------------------------------------+");
             System.out.println("ISBN\t" + livro.getIsbn());
             System.out.println("Titulo\t" + livro.getNomeLivro());
             System.out.println("Assunto\t" + livro.getAssunto());
@@ -369,6 +436,59 @@ public class Livraria { // Incio CLASS
         }
     }// Fim LISTALIVRO
      // Fim LIVRO
+
+    public static void VendaLivro() {// Inicio VENDALIVRO
+        int idVendaLivro;
+        Cliente idCliente = null;
+        ArrayList<Livro> livros = new ArrayList<>();
+        float subTotal = 0;
+        LocalDate dataVenda = LocalDate.now();
+
+        System.out.println("+----------------------------+");
+        System.out.println("| --    Venda de livros   -- |");
+        System.out.println("+----------------------------+");
+
+        do {// Inicio DO
+            System.out.print("Informe o CPF do cliente: ");
+            String CPF = ler.nextLine();
+            if (Validadores.isCPF(CPF)) {
+                idCliente = CadCliente.getClienteCPF(CPF);
+                if (idCliente == null) {
+                    System.out.println("Cliente não cadastrado, tente novamente!.");
+                }
+            } else {
+                System.out.println("CPF inválido, tente novamente!.");
+            }
+
+        } while (idCliente == null);
+        boolean venda = true;
+        do {
+            Livro li = null;
+            String isbn;
+            do {
+                System.out.println("Informe o ISBN: ");
+                isbn = ler.nextLine();
+                li = CadLivro.getLivroISBN(isbn);
+                if (li == null) {
+                    System.out.println("Livro não encontrado, tente novamente!.");
+                }
+            } while (li == null);
+            livros.add(li);
+            CadLivro.AtualizaEstoqueLivro(li.getIsbn());
+            subTotal += li.getPreco();
+            System.out.println("Deseja comprar mais livros nesta venda ?"
+                    + "\n 1- Sim | 2- Não"
+                    + "\n Informe a opção: ");
+            if (lerNum() == 2) {
+                venda = false;
+            }
+        } while (venda);
+        idVendaLivro = CadVendaLivro.geraID();
+        VendaLivro vl = new VendaLivro(idVendaLivro, idCliente, livros, idVendaLivro, subTotal, dataVenda,
+                idVendaLivro);
+        CadVendaLivro.addVendaLivro(vl);
+        System.out.println("-- Venda --\n" + vl.toString());
+    }// Fim VENDALIVRO
 
     public static void main(String[] args) {// Inicio VOID
         CadCliente.mockClientes();
@@ -441,7 +561,6 @@ public class Livraria { // Incio CLASS
                             case 0:
                                 System.out.println("-- Menu Principal --\n");
                                 opM = 99;
-                                MenuP();
                                 break;
                             default:
                                 System.out.println("Opção inválida, tente novamente!!");
@@ -452,6 +571,7 @@ public class Livraria { // Incio CLASS
                     break;
                 case 4:
                     System.out.println("-- Venda Livros--");
+                    VendaLivro();
                     break;
                 default:
                     System.out.println("Opção inválida, tente novamente!!");

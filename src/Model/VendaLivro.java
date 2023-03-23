@@ -85,8 +85,9 @@ public class VendaLivro {
 
     @Override
     public String toString() {
-        return "VendaLivro | idVendaLivro: " + idVendaLivro + "| idCliente: " + idCliente + "| idLivro: " + idLivro
-                + "| quant: " + quant + "| subTotal: " + subTotal + "| dataVenda: " + dataVenda + "| idVenda: " + idVenda
+        return "VendaLivro | ID: " + idVendaLivro + " | Cliente: " + idCliente + " | Livro: " + idLivro
+                + " | Quantidade: " + quant + " | SubTOTAL: " + subTotal + " | Data da venda: " + dataVenda
+                + " | Venda: " + idVenda
                 + "|";
     }
 
