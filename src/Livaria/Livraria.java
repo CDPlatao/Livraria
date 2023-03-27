@@ -83,52 +83,53 @@ public class Livraria { // Incio CLASS
         System.out.print(" Escolha uma opção: ");
     }// Fim SUBMENU
      // Fim MENUS
-     // Inicio CLIENTE
 
+    // Inicio CLIENTE
     public static void cadastrarCliente() {// Inicio CADCLIENTE
-        int idCliente;
         String nomeCliente;
         String cpf;
-        String cnpj = null;
         String endereco;
         String telefone;
 
         System.out.println("+----------------------------+");
         System.out.println("| -- Cadastro de clientes -- |");
         System.out.println("+----------------------------+");
-        System.out.print(" Informe o CPF: ");
-        boolean cpfis;
-        int opCPF;
-        do {// Inicio DO
-            cpf = ler.nextLine();
-            cpfis = Validadores.isCPF(cpf);
-            if (!cpfis) {
-                System.out.println("CPF inválido" + "\nDeseja tentar novamente ? 1 - Sim | 2 - Não");
-                opCPF = lerNum();
+        System.out.print("Informe o CPF: ");
 
-                if (opCPF == 1) {
-                    System.out.println("Informe o CPF:");
-                } else if (opCPF == 2) {
+        boolean cpfValido;
+        int opCPF = 0;
+
+        do {
+            cpf = ler.nextLine();
+            cpfValido = Validadores.isCPF(cpf);
+
+            if (!cpfValido) {
+                System.out.println("CPF inválido\nDeseja tentar novamente? 1 - Sim | 2 - Não");
+                opCPF = ler.nextInt();
+                ler.nextLine(); // limpa o buffer do teclado
+
+                if (opCPF == 2) {
                     System.out.println("Cadastro cancelado pelo usuário");
-                    break;
+                    return;
                 }
             }
-        } while (!Validadores.isCPF(cpf));
-        if (CadCliente.getClienteCPF(cpf) != null) {
+        } while (!cpfValido);
+
+        if (opCPF != 2 && CadCliente.getClienteCPF(cpf) != null) {
             System.out.println("Cliente já cadastrado");
-        } else {
+        } else if (opCPF != 2) { // adiciona a verificação de que o usuário não cancelou
             System.out.print("Informe o nome: ");
             nomeCliente = ler.nextLine();
             System.out.print("Informe o telefone: ");
             telefone = ler.nextLine();
             System.out.print("Informe o endereço: ");
             endereco = ler.nextLine();
-            idCliente = CadCliente.geraID();
-            Cliente cli = new Cliente(idCliente, nomeCliente, cpf, cnpj, endereco, telefone);
+            int idCliente = CadCliente.geraID();
+            Cliente cli = new Cliente(idCliente, nomeCliente, cpf, cpf, endereco, telefone);
             CadCliente.addCliente(cli);
-            System.out.println("Cliente cadastro com sucesso!");
+            System.out.println("Cliente cadastrado com sucesso!");
+        }
 
-        } // Fim DO
     }// Fim CADCLIENTE
 
     private static void editarCliente() {// Inicio EDICLIENTE
@@ -219,7 +220,7 @@ public class Livraria { // Incio CLASS
                     System.out.println("Informe o CNPJ:");
                 } else if (opCNPJ == 2) {
                     System.out.println("Cadastro cancelado pelo usuário");
-                    break;
+                    return;
                 }
             }
         } while (!Validadores.isCNPJ(cnpj));
@@ -437,59 +438,73 @@ public class Livraria { // Incio CLASS
     }// Fim LISTALIVRO
      // Fim LIVRO
 
-    public static void VendaLivro() {// Inicio VENDALIVRO
-        int idVendaLivro;
-        Cliente idCliente = null;
-        ArrayList<Livro> livros = new ArrayList<>();
-        float subTotal = 0;
+    // Inicio VENDALIVRO
+    public static void VendaLivro() {
+        Cliente cliente = solicitaCliente();
+        ArrayList<Livro> livros = solicitaLivros();
+        float subTotal = calculaSubTotal(livros);
         LocalDate dataVenda = LocalDate.now();
-
-        System.out.println("+----------------------------+");
-        System.out.println("| --    Venda de livros   -- |");
-        System.out.println("+----------------------------+");
-
-        do {// Inicio DO
-            System.out.print("Informe o CPF do cliente: ");
-            String CPF = ler.nextLine();
-            if (Validadores.isCPF(CPF)) {
-                idCliente = CadCliente.getClienteCPF(CPF);
-                if (idCliente == null) {
-                    System.out.println("Cliente não cadastrado, tente novamente!.");
-                }
-            } else {
-                System.out.println("CPF inválido, tente novamente!.");
-            }
-
-        } while (idCliente == null);
-        boolean venda = true;
-        do {
-            Livro li = null;
-            String isbn;
-            do {
-                System.out.println("Informe o ISBN: ");
-                isbn = ler.nextLine();
-                li = CadLivro.getLivroISBN(isbn);
-                if (li == null) {
-                    System.out.println("Livro não encontrado, tente novamente!.");
-                }
-            } while (li == null);
-            livros.add(li);
-            CadLivro.AtualizaEstoqueLivro(li.getIsbn());
-            subTotal += li.getPreco();
-            System.out.println("Deseja comprar mais livros nesta venda ?"
-                    + "\n 1- Sim | 2- Não"
-                    + "\n Informe a opção: ");
-            if (lerNum() == 2) {
-                venda = false;
-            }
-        } while (venda);
-        idVendaLivro = CadVendaLivro.geraID();
-        VendaLivro vl = new VendaLivro(idVendaLivro, idCliente, livros, idVendaLivro, subTotal, dataVenda,
-                idVendaLivro);
+        int idVendaLivro = CadVendaLivro.geraID();
+        VendaLivro vl = new VendaLivro(idVendaLivro, cliente, livros, idVendaLivro, subTotal, dataVenda, idVendaLivro);
         CadVendaLivro.addVendaLivro(vl);
         System.out.println("-- Venda --\n" + vl.toString());
-    }// Fim VENDALIVRO
+    }
 
+    private static Cliente solicitaCliente() {        
+        Cliente cliente = null;
+        do {
+            System.out.print("Informe o CPF do cliente: ");
+            String cpf = ler.nextLine();
+            if (Validadores.isCPF(cpf)) {
+                cliente = CadCliente.getClienteCPF(cpf);
+                if (cliente == null) {
+                    System.out.println("Cliente não cadastrado!.");
+                }
+            } else {
+                System.out.println("CPF Inválido!.");
+            }
+        } while (cliente == null);
+        return cliente;
+    }
+
+    private static ArrayList<Livro> solicitaLivros() {
+        ArrayList<Livro> livros = new ArrayList<>();
+        boolean continuarCompra = true;
+        do {
+            Livro livro = solicitaLivro();
+            livros.add(livro);
+            CadLivro.AtualizaEstoqueLivro(livro.getIsbn());
+            System.out.print("Deseja comprar mais livros nesta venda? 1-Sim | 2-Não\nInforme a opção: ");
+            int opcao = lerNum();
+            continuarCompra = (opcao == 1);
+        } while (continuarCompra);
+        return livros;
+    }
+
+    private static Livro solicitaLivro() {
+        Livro livro = null;
+        do {
+            System.out.print("Informe o ISBN: ");
+            String isbn = ler.nextLine();
+            livro = CadLivro.getLivroISBN(isbn);
+            if (livro == null) {
+                System.out.print("Livro não encontrado.");
+            }
+        } while (livro == null);
+        return livro;
+    }
+
+    private static float calculaSubTotal(ArrayList<Livro> livros) {
+        float subTotal = 0;
+        for (Livro livro : livros) {
+            subTotal += livro.getPreco();
+        }
+        return subTotal;
+    }
+
+    // Fim VENDALIVRO
+
+    // Inicio MAIN
     public static void main(String[] args) {// Inicio VOID
         CadCliente.mockClientes();
         CadEditora.mockEditora();
@@ -579,4 +594,5 @@ public class Livraria { // Incio CLASS
             }
         } while (opM != 0);// Sistema
     }// Fim VOID
+     // Fim MAIN
 }// Fim CLASS
